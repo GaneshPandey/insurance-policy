@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    command: >
+      gunicorn -b 0.0.0.0:8000
+        --access-logfile -
+        --reload
+        "recommendation.app:create_app()"
+    environment:
+      PYTHONUNBUFFERED: 'true'
+    volumes:
+      - '.:/recommendation'
+    ports:
+      - '8000:8000'
