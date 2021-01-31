@@ -1,10 +1,20 @@
+from werkzeug.middleware.proxy_fix import ProxyFix
 from flask import Flask
 
+from recommendation.blueprints.user import user
 
-def create_app():
+from recommendation.extensions import (
+    debug_toolbar,
+    db,
+    limiter,
+)
+
+
+def create_app(settings_override=None):
     """
-    Flask application using the app factory pattern.
+    Create a Flask application using the app factory pattern.
 
+    :param settings_override: Override settings
     :return: Flask app
     """
     app = Flask(__name__, instance_relative_config=True)
@@ -12,13 +22,38 @@ def create_app():
     app.config.from_object('config.settings')
     app.config.from_pyfile('settings.py', silent=True)
 
-    @app.route('/')
-    def index():
-        """
-        Render a Hello World response.
+    if settings_override:
+        app.config.update(settings_override)
 
-        :return: Flask response
-        """
-        return 'Hello World!!!!!!'
+    middleware(app)
+    app.register_blueprint(user)
+    extensions(app)
 
     return app
+
+
+def extensions(app):
+    """
+    Register 0 or more extensions (mutates the app passed in).
+
+    :param app: Flask application instance
+    :return: None
+    """
+    debug_toolbar.init_app(app)
+    db.init_app(app)
+    limiter.init_app(app)
+
+    return None
+
+
+def middleware(app):
+    """
+    Register 0 or more middleware (mutates the app passed in).
+
+    :param app: Flask application instance
+    :return: None
+    """
+    # Swap request.remote_addr with the real IP address even if behind a proxy.
+    app.wsgi_app = ProxyFix(app.wsgi_app)
+
+    return None
