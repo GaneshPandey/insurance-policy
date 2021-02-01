@@ -8,8 +8,8 @@ services:
         --access-logfile -
         --reload
         "recommendation.app:create_app()"
-    environment:
-      PYTHONUNBUFFERED: 'true'
+    env_file:
+      - '.env'
     volumes:
       - '.:/recommendation'
     ports:
