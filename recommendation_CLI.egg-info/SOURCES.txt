@@ -1,0 +1,12 @@
+README.md
+setup.py
+cli/__init__.py
+cli/cli.py
+cli/commands/__init__.py
+cli/commands/cmd_test.py
+recommendation_CLI.egg-info/PKG-INFO
+recommendation_CLI.egg-info/SOURCES.txt
+recommendation_CLI.egg-info/dependency_links.txt
+recommendation_CLI.egg-info/entry_points.txt
+recommendation_CLI.egg-info/requires.txt
+recommendation_CLI.egg-info/top_level.txt

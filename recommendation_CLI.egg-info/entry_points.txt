@@ -1,0 +1,4 @@
+
+        [console_scripts]
+        recommendation=cli.cli:cli
+    
