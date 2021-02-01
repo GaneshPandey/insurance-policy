@@ -8,6 +8,6 @@ def index():
     return "this is a index route"
 
 
-@user.route("/user", methods=["GET", "POST"])
-def index():
-    return "this is a user route"
+@user.route("/user", methods=["GET"])
+def user_view():
+    return "Another user view"

@@ -1,12 +1,12 @@
 from werkzeug.middleware.proxy_fix import ProxyFix
 from flask import Flask
 
-from recommendation.blueprints.user import user
-
 from recommendation.extensions import (
-    debug_toolbar,
     db,
     limiter,
+    cors,
+    migrate,
+    bcrypt,
 )
 
 
@@ -19,14 +19,18 @@ def create_app(settings_override=None):
     """
     app = Flask(__name__, instance_relative_config=True)
 
-    app.config.from_object('config.settings')
-    app.config.from_pyfile('settings.py', silent=True)
+    app.config.from_object("config.settings")
+    app.config.from_pyfile("settings.py", silent=True)
 
     if settings_override:
         app.config.update(settings_override)
 
     middleware(app)
+
+    from recommendation.blueprints.user import user
+
     app.register_blueprint(user)
+
     extensions(app)
 
     return app
@@ -39,9 +43,11 @@ def extensions(app):
     :param app: Flask application instance
     :return: None
     """
-    debug_toolbar.init_app(app)
-    db.init_app(app)
+    cors.init_app(app)
     limiter.init_app(app)
+    db.init_app(app)
+    migrate.init_app(app, db)
+    bcrypt.init_app(app)
 
     return None
 
