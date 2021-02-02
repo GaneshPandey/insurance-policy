@@ -1,1 +1,1 @@
-from recommendation.blueprints.user.views import user
+# from recommendation.blueprints.user.views import user
