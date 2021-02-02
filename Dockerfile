@@ -1,6 +1,9 @@
 FROM python:3.8.7-slim-buster
 MAINTAINER Ganesh Pandey <ganesh.pandey255@gmail.com>
 
+RUN apt-get update && apt-get install -qq -y \
+  build-essential libpq-dev --no-install-recommends
+
 ENV INSTALL_PATH /recommendation
 RUN mkdir -p $INSTALL_PATH
 
