@@ -6,6 +6,7 @@ import pytest
 from config import settings
 from recommendation.app import create_app
 from recommendation.extensions import db as _db
+from recommendation.blueprints.user.models import User
 
 
 @pytest.fixture(scope="session")
@@ -60,8 +61,10 @@ def db(app):
     params = {
         "role": "admin",
         "email": "admin@local.host",
+        "username": "noones",
         "password": "password",
-        "coins": 100,
+        "first_name": "Ganesh",
+        "last_name": "Pandey",
     }
 
     admin = User(**params)
