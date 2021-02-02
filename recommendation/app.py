@@ -27,9 +27,9 @@ def create_app(settings_override=None):
 
     middleware(app)
 
-    from recommendation.blueprints.user import user
+    from recommendation.blueprints.api import api_bp
 
-    app.register_blueprint(user)
+    app.register_blueprint(api_bp)
 
     extensions(app)
 
